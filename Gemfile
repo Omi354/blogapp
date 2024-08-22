@@ -27,6 +27,7 @@ gem 'hamlit'
 gem 'annotate'
 gem 'better_errors'
 gem 'binding_of_caller'
+gem 'devise'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
@@ -52,9 +53,9 @@ group :development do
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'erb2haml'
+  gem 'solargraph'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'solargraph'
 end
 
 group :test do
