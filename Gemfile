@@ -54,6 +54,7 @@ group :development do
   gem 'erb2haml'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'solargraph'
 end
 
 group :test do
