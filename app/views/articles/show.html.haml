@@ -15,4 +15,16 @@
   .article_content
     = @article.content
   .article_heart
-    = image_tag 'heart.svg'
+    .card_content
+      = image_tag 'heart.svg'
+
+.article
+  %h2 コメント一覧
+  - @comments.each do |comment|
+    .article_comment
+      %p= comment.content
+
+.container
+  = link_to new_article_comment_path(article_id: @article) do
+    .btn-secondary
+      コメントを追加
