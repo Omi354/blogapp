@@ -1,12 +1,17 @@
 {
   "name": "blog_app",
   "private": true,
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "4.3.0",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "node-gyp": "10.x"
   },
   "version": "0.1.0"
 }
