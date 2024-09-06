@@ -19,9 +19,12 @@ require("trix");
 require("@rails/actiontext");
 
 import $ from "jquery";
+import axios from "axios";
 
 document.addEventListener("DOMContentLoaded", () => {
   $(".article_title").on("click", () => {
-    window.alert("CLICKED!");
+    axios.get("/").then((response) => {
+      console.log(response);
+    });
   });
 });
