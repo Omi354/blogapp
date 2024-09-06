@@ -21,10 +21,17 @@ require("@rails/actiontext");
 import $ from "jquery";
 import axios from "axios";
 
-document.addEventListener("DOMContentLoaded", () => {
-  $(".article_title").on("click", () => {
-    axios.get("/").then((response) => {
+document.addEventListener("turbolinks:load", () => {
+  const dataset = $("#article-show").data();
+  const articleId = dataset.articleId;
+  axios.get(`/articles/${articleId}/like`)
+    .then((response) => {
+      const hasLiked = response.data.hasLiked
+      if (hasLiked) {
+        $('.active-heart').removeClass('hidden')
+      } else {
+        $('.inactive-heart').removeClass('hidden')
+      }
       console.log(response);
-    });
   });
 });
