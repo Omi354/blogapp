@@ -26,6 +26,30 @@ document.addEventListener("turbolinks:load", () => {
       })
     })
 
+    $('.show-secondary-form').on('click', () => {
+      $('.show-secondary-form').addClass('hidden')
+      $('.comment-text-area').removeClass('hidden')
+    })
+
+    $('.add-comment-button').on('click', () => {
+      const content = $('#comment_content').val()
+      if (!content) {
+        window.alert('コメントを入力して下さい')
+      } else {
+        axios.post(`/articles/${articleId}/comments`, {
+          comment: {content: content}
+        })
+        .then((res) => {
+          const comment = res.data
+            $('.comments-container').append(
+              `<div><p>${comment.content}</p></div>`
+            )
+            $('#comment_content').val('')
+          })
+      }
+    })
+
+
   axios.get(`/articles/${articleId}/like`)
     .then((response) => {
       const hasLiked = response.data.hasLiked
