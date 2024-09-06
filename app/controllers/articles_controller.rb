@@ -7,7 +7,7 @@ class ArticlesController < ApplicationController
     end
     
     def show
-    end
+    end 
 
     def new
         @article = current_user.articles.build
