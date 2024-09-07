@@ -1,8 +1,10 @@
 import $ from "jquery";
-import axios from "axios";
-import { csrfToken } from 'rails-ujs'
+import axios from "modules/axios";
+import {
+  listenInactiveHeartEvent,
+  listenActiveHeartEvent
+} from 'modules/handle_heart'
 
-axios.defaults.headers.common['X-CSRF-Token'] = csrfToken()
 
 const handleHeartDisplay = (hasLiked) => {
   if (hasLiked) {
@@ -10,6 +12,19 @@ const handleHeartDisplay = (hasLiked) => {
   } else {
     $('.inactive-heart').removeClass('hidden')
   }
+}
+
+const handleCommentForm = () => {
+  $('.show-secondary-form').on('click', () => {
+    $('.show-secondary-form').addClass('hidden')
+    $('.comment-text-area').removeClass('hidden')
+  })
+}
+
+const appendNewComment = (comment) => {
+  $('.comments-container').append(
+    `<div><p>${comment.content}</p></div>`
+  )
 }
 
 document.addEventListener("turbolinks:load", () => {
@@ -20,16 +35,14 @@ document.addEventListener("turbolinks:load", () => {
     .then((response) => {
       const comments = response.data
       comments.forEach((comment) => {
-        $('.comments-container').append(
-          `<div><p>${comment.content}</p></div>`
-        )
+        appendNewComment(comment)
       })
     })
-
-    $('.show-secondary-form').on('click', () => {
-      $('.show-secondary-form').addClass('hidden')
-      $('.comment-text-area').removeClass('hidden')
+    .catch((error) => {
+      window.alert('失敗')
     })
+
+    handleCommentForm()
 
     $('.add-comment-button').on('click', () => {
       const content = $('#comment_content').val()
@@ -41,9 +54,7 @@ document.addEventListener("turbolinks:load", () => {
         })
         .then((res) => {
           const comment = res.data
-            $('.comments-container').append(
-              `<div><p>${comment.content}</p></div>`
-            )
+            appendNewComment(comment)
             $('#comment_content').val('')
           })
       }
@@ -56,32 +67,9 @@ document.addEventListener("turbolinks:load", () => {
       handleHeartDisplay(hasLiked)
     });
 
-  $('.inactive-heart').on('click', () => {
-    axios.post(`/articles/${articleId}/like`)
-      .then((response) => {
-        if (response.data.status === 'ok') {
-          $('.active-heart').removeClass('hidden')
-          $('.inactive-heart').addClass('hidden')
-        }
-      })
-      .catch((e) => {
-        window.alert('Error')
-        console.log(e)
-      })
-  })
+  listenInactiveHeartEvent(articleId)
+  listenActiveHeartEvent(articleId)
 
-  $('.active-heart').on('click', () => {
-    axios.delete(`/articles/${articleId}/like`)
-      .then((response) => {
-        if (response.data.status === 'ok') {
-          $('.active-heart').addClass('hidden')
-          $('.inactive-heart').removeClass('hidden')
-        }
-      })
-      .catch((e) => {
-        window.alert('Error')
-        console.log(e)
-      })
-  })
+
 
 });
