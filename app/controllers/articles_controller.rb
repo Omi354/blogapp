@@ -7,8 +7,7 @@ class ArticlesController < ApplicationController
     end
     
     def show
-        @comments = @article.comments
-    end
+    end 
 
     def new
         @article = current_user.articles.build
